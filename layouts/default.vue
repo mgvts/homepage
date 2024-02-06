@@ -1,8 +1,13 @@
 <template>
-  <v-col>
-    <Header />
+  <div class="default-layout">
     <slot />
-  </v-col>
+  </div>
 </template>
+
+<style lang="css">
+  .default-layout {
+
+  }
+</style>
 
 
