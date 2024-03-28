@@ -18,7 +18,6 @@ export default defineNuxtComponent({
   <VContainer>
     <!--  todo replace all MyHeader into theme/some wrapper -->
     <MyHeader class="ma-2"/>
-    <ColorThemeSwitch/>
   </VContainer>
 </template>
 

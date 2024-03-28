@@ -1,35 +1,33 @@
-<script>
+<script lang="ts">
 import {defineNuxtComponent, useCookie} from "nuxt/app";
 import {useTheme} from 'vuetify'
 
 export default defineNuxtComponent({
   name: 'ColorThemeSwitch',
   setup() {
-    const theme = useTheme()
+    const vuetifyTheme = useTheme()
     const themeCookie = useCookie('app.darkMode')
-    if (themeCookie) themeCookie.value = 'light'
-
     return {
-      theme,
-      themeCookie
+      vuetifyTheme,
+      themeCookie,
     }
   },
   data() {
     return {
       themes: ['light', 'dark'],
-      isUserThemeDark: -1,
-      toggledTheme: true
+      isUserThemeDark: false,
+      switchVal: false
     }
   },
   mounted() {
     this.isUserThemeDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-    this.themeCookie = this.themes[+this.isUserThemeDark]
-    this.theme.global.name.value = this.themeCookie
+    this.themeCookie = this.themes[+(this.isUserThemeDark)]
+    this.vuetifyTheme.global.name.value = this.themeCookie
+    this.switchVal = !(this.isUserThemeDark)
   },
   watch: {
-    toggledTheme() {
-      this.toggleCookie()
-      this.toggleVuetify()
+    switchVal() {
+      this.toggleTheme()
     }
   },
   methods: {
@@ -38,7 +36,8 @@ export default defineNuxtComponent({
       this.toggleVuetify()
     },
     toggleVuetify() {
-      this.theme.global.name.value = this.theme.global.current.value.dark ? 'light' : 'dark'
+      this.vuetifyTheme.global.name.value = this.vuetifyTheme.global.current.value.dark
+          ? 'light' : 'dark'
     },
     toggleCookie() {
       this.themeCookie = this.themeCookie === 'dark' ? 'light' : 'dark'
@@ -48,14 +47,14 @@ export default defineNuxtComponent({
 </script>
 
 <template>
-  <VContainer class="px-0">
-    <VSwitch
-            inset
-             v-model="toggledTheme"
-             class="custom-switch"
-    ></VSwitch>
-    <VBtn @click="toggleTheme">toggle theme</VBtn>
-  </VContainer>
+  <VSwitch
+      inset
+      :ripple="false"
+      v-model="switchVal"
+      class="custom-switch"
+      false-icon="mdi-weather-night"
+      true-icon="mdi-weather-sunny"
+  ></VSwitch>
 </template>
 
 <style>
@@ -64,8 +63,8 @@ export default defineNuxtComponent({
   width: 24px;
   transform: none;
 }
+
 .v-switch__thumb {
-  background-color:transparent;
-  border: 1px solid red;
+  background-color: transparent;
 }
 </style>

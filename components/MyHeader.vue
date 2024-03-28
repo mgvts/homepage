@@ -6,9 +6,10 @@ export default defineNuxtComponent({
   data() {
     return {
       showPages: false,
-      items:[
-        {text: 'data fetch', icon: 'mdi-database-outline', path:'dataFetch'},
-        {text: 'kitty wall', icon: 'mdi-cat', path:''},
+      items: [
+        {text: 'home', icon:'mdi-home', path:''},
+        {text: 'data fetch', icon: 'mdi-database-outline', path: 'dataFetch'},
+        {text: 'kitty wall', icon: 'mdi-cat', path: 'cats'},
       ]
     }
   }
@@ -22,6 +23,7 @@ export default defineNuxtComponent({
         flat
     >
       <VAppBarTitle>here title</VAppBarTitle>
+      <ColorThemeSwitch class="h-100 mr-1"/>
       <VAppBarNavIcon
           @click="showPages = !showPages"
       />
@@ -37,15 +39,13 @@ export default defineNuxtComponent({
         <template v-slot:prepend>
           <VIcon :icon="item.icon"></VIcon>
         </template>
-        <VListItemTitle>
-          <NuxtLink :to="'/' + item.path">{{ item.text }}</NuxtLink>
-        </VListItemTitle>
+        <NuxtLink :to="'/' + item.path">
+          <VListItemTitle>{{ item.text }}</VListItemTitle>
+        </NuxtLink>
       </VListItem>
     </VList>
   </VExpandTransition>
-  <VContainer v-if="showPages">
-
-  </VContainer>
+  <VContainer v-if="showPages"></VContainer>
 </template>
 
 <style scoped lang="css">
